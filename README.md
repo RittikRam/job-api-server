@@ -104,4 +104,78 @@ Rittik Ram
 Learning Spring Boot & DSA | Java Backend Developer
 GitHub: @RittikRam
 
-📄 License
+📘 API Documentation
+🔹 Base URL : 
+http://localhost:8080
+
+🔹 Endpoints
+➕ POST /jobPost
+Description: Add a new job post
+Request Body (JSON): 
+{
+  "postProfile": "DevOps Engineer",
+  "desc": "Responsible for CI/CD pipelines",
+  "techStack": "AWS, Docker, Jenkins",
+  "reqExperience": "2+ years"
+}
+Response:
+{
+  "postId": 1,
+  "postProfile": "DevOps Engineer",
+  "desc": "Responsible for CI/CD pipelines",
+  "techStack": "AWS, Docker, Jenkins",
+  "reqExperience": "2+ years"
+}
+
+📄 GET /load
+Description: Retrieve all job posts
+Response:
+[
+  {
+    "postId": 1,
+    "postProfile": "DevOps Engineer",
+    "desc": "Responsible for CI/CD pipelines",
+    "techStack": "AWS, Docker, Jenkins",
+    "reqExperience": "2+ years"
+  }
+]
+
+✏️ PUT /updateJob/{id}
+Description: Update an existing job by ID
+Request Body (JSON):
+{
+  "postProfile": "Updated Role",
+  "desc": "Updated description",
+  "techStack": "Updated tech",
+  "reqExperience": "5+ years"
+}
+
+Response:
+{
+  "postId": 1,
+  "postProfile": "Updated Role",
+  "desc": "Updated description",
+  "techStack": "Updated tech",
+  "reqExperience": "5+ years"
+}
+
+❌ DELETE /deleteJob/{id}
+Description: Delete a job post by ID
+Response:
+Job post deleted successfully.
+
+🧪 Testing
+Use Postman or curl to test your endpoints.
+
+Example using curl:curl -X GET http://localhost:8080/load
+🛠 Technologies Used
+Java 21
+
+Spring Boot
+
+Spring Data JPA
+
+PostgreSQL
+
+Postman (for API testing)
+
