@@ -108,10 +108,17 @@ curl http://localhost:8080/api/jobPosts
 curl -X POST -H "Content-Type: application/json" \
   -d '{"postId":6,"postProfile":"SDE","postDesc":"Full stack role","reqExperience":2,"postTechStack":["Java","React"]}' \
   http://localhost:8080/api/jobPost
+  
 ✍️ Author
+
 Rittik Ram
+
 Learning Spring Boot & DSA | Java Backend Developer
+
 📍 GitHub: @RittikRam
+
+
+
 🛠 Technologies Used
 Java 21
 
