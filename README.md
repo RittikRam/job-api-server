@@ -9,20 +9,23 @@ Supports full CRUD operations and uses **PostgreSQL** for persistent storage.
 
 - Create, Read, Update, Delete (CRUD) job posts
 - Search job posts by keyword
-- Sample endpoint to load test data
+- Load dummy job data using a special endpoint
 - Integrated with PostgreSQL
-- Built using Spring Boot, Spring Data JPA, Hibernate
+- Unit & integration testing with high code coverage (97%)
 
 ---
 
 ## 🧱 Tech Stack
 
-- Java 17
+- Java 21
 - Spring Boot
 - Spring Data JPA
-- PostgreSQL (or H2 for testing)
+- PostgreSQL (or H2 for tests)
 - Maven
-- RESTful APIs
+- JUnit 5
+- Mockito
+- MockMvc
+- JaCoCo (for test coverage)
 
 ---
 
@@ -31,16 +34,14 @@ Supports full CRUD operations and uses **PostgreSQL** for persistent storage.
 springbootRest/
 ├── src/
 │ ├── main/
-│ │ ├── java/
-│ │ │ └── com.rittik.springbootRest/
-│ │ │ ├── model/ --> JobPost.java
-│ │ │ ├── repo/ --> JobRepo.java
-│ │ │ ├── service/ --> JobService.java
-│ │ │ └── controller/ --> JobRestController.java
-│ │ └── resources/
-│ │ └── application.properties
+│ │ └── java/com/rittik/springbootRest/
+│ │ ├── model/ # JobPost.java
+│ │ ├── repo/ # JobRepo.java
+│ │ ├── service/ # JobService.java
+│ │ └── controller/ # JobRestController.java
 │ └── test/
-│ └── SpringbootRestApplicationTests.java
+│ └── controller/ # JobRestControllerIntegrationTest.java
+│ └── service/ # JobServiceTest.java
 ├── pom.xml
 └── README.md
 
@@ -49,15 +50,15 @@ springbootRest/
 
 ## 🔗 API Endpoints
 
-| Method | Endpoint                        | Description                     |
-|--------|----------------------------------|---------------------------------|
-| GET    | `/jobPosts`                     | Get all job posts               |
-| GET    | `/jobPost/{postId}`             | Get job post by ID              |
-| POST   | `/jobPost`                      | Create a new job post           |
-| PUT    | `/jobPost`                      | Update an existing job post     |
-| DELETE | `/jobPost/{postId}`             | Delete job post by ID           |
-| GET    | `/jobPosts/keyword/{keyword}`   | Search job posts by keyword     |
-| GET    | `/load`                         | Load test data (optional)       |
+| Method | Endpoint                      | Description                     |
+|--------|-------------------------------|---------------------------------|
+| GET    | `/api/jobPosts`              | Get all job posts               |
+| GET    | `/api/jobPost/{postId}`      | Get job post by ID              |
+| POST   | `/api/jobPost`               | Create a new job post           |
+| PUT    | `/api/jobPost`               | Update an existing job post     |
+| DELETE | `/api/jobPost/{postId}`      | Delete job post by ID           |
+| GET    | `/api/jobPosts/keyword/{kw}` | Search job posts by keyword     |
+| GET    | `/api/load`                  | Load sample job data            |
 
 ---
 
@@ -65,109 +66,59 @@ springbootRest/
 
 ```json
 {
-    "postId": 3,
-    "postProfile": "Express.js Developer",
-    "postDesc": "Experience in Express.js development",
-    "reqExperience": 3,
-    "postTechStack": [
-        "Express.js Development",
-        "Backend Development"
-    ]
+  "postId": 3,
+  "postProfile": "Express.js Developer",
+  "postDesc": "Experience in Express.js development",
+  "reqExperience": 3,
+  "postTechStack": [
+    "Express.js Development",
+    "Backend Development"
+  ]
 }
-
 ```
-⚙️ Setup & Run
-🧩 1. Clone the repo
+
+⚙️ How to Run Locally
+1️⃣ Clone the Repository
 git clone https://github.com/RittikRam/job-api-server.git
 cd job-api-server
-
-🛠️ 2. Configure PostgreSQL in application.properties
-properties : 
+2️⃣ Configure PostgreSQL in application.properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/jobdb
 spring.datasource.username=your_pg_username
 spring.datasource.password=your_pg_password
 spring.jpa.hibernate.ddl-auto=update
-
-▶️ 3. Run the Application : 
+3️⃣ Run the Application
 ./mvnw spring-boot:run
+App will be live at: http://localhost:8080
+✅ How to Run Tests
+Use Maven to run all unit and integration tests:
+mvn test
+To generate the JaCoCo coverage report:
+mvn jacoco:report
+Then open the report:
+target/site/jacoco/index.html
+📊 JaCoCo Code Coverage Report
+✅ Achieved 97% overall coverage including controller & service tests.
+![image](https://github.com/user-attachments/assets/b2d608dc-7fd7-4b6e-94f7-9abc1355d33d)
 
-App starts at: http://localhost:8080
+📘 Sample curl Commands
+# Get all jobs
+curl http://localhost:8080/api/jobPosts
 
-🧪 Test with curl/Postman
-curl http://localhost:8080/jobPosts
+# Add a new job
 curl -X POST -H "Content-Type: application/json" \
-     -d '{"postProfile":"SDE","desc":"Full stack role","techStack":"Java,React"}' \
-     http://localhost:8080/jobPost
-
+  -d '{"postId":6,"postProfile":"SDE","postDesc":"Full stack role","reqExperience":2,"postTechStack":["Java","React"]}' \
+  http://localhost:8080/api/jobPost
+  
 ✍️ Author
+
 Rittik Ram
+
 Learning Spring Boot & DSA | Java Backend Developer
-GitHub: @RittikRam
 
-📘 API Documentation
-🔹 Base URL : 
-http://localhost:8080
+📍 GitHub: @RittikRam
 
-🔹 Endpoints
-➕ POST /jobPost
-Description: Add a new job post
-Request Body (JSON): 
-{
-  "postProfile": "DevOps Engineer",
-  "desc": "Responsible for CI/CD pipelines",
-  "techStack": "AWS, Docker, Jenkins",
-  "reqExperience": "2+ years"
-}
-Response:
-{
-  "postId": 1,
-  "postProfile": "DevOps Engineer",
-  "desc": "Responsible for CI/CD pipelines",
-  "techStack": "AWS, Docker, Jenkins",
-  "reqExperience": "2+ years"
-}
 
-📄 GET /load
-Description: Retrieve all job posts
-Response:
-[
-  {
-    "postId": 1,
-    "postProfile": "DevOps Engineer",
-    "desc": "Responsible for CI/CD pipelines",
-    "techStack": "AWS, Docker, Jenkins",
-    "reqExperience": "2+ years"
-  }
-]
 
-✏️ PUT /updateJob/{id}
-Description: Update an existing job by ID
-Request Body (JSON):
-{
-  "postProfile": "Updated Role",
-  "desc": "Updated description",
-  "techStack": "Updated tech",
-  "reqExperience": "5+ years"
-}
-
-Response:
-{
-  "postId": 1,
-  "postProfile": "Updated Role",
-  "desc": "Updated description",
-  "techStack": "Updated tech",
-  "reqExperience": "5+ years"
-}
-
-❌ DELETE /deleteJob/{id}
-Description: Delete a job post by ID
-Response:
-Job post deleted successfully.
-
-🧪 Testing
-Use Postman or curl to test your endpoints.
-
-Example using curl:curl -X GET http://localhost:8080/load
 🛠 Technologies Used
 Java 21
 
@@ -177,5 +128,8 @@ Spring Data JPA
 
 PostgreSQL
 
-Postman (for API testing)
+JUnit, Mockito, MockMvc
 
+JaCoCo
+
+Postman / curl (API testing)
