@@ -5,7 +5,7 @@ import SearchBar from './components/SearchBar';
 import JobCard from './components/JobCard';
 import JobForm from './components/JobForm';
 import LoadingSpinner from './components/LoadingSpinner';
-import { AlertCircle, CheckCircle, Info } from 'lucide-react';
+import { AlertCircle, CheckCircle, Info, Briefcase } from 'lucide-react';
 
 function App() {
   const [jobs, setJobs] = useState([]);
